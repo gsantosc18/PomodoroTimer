@@ -20,6 +20,8 @@ public class ApplicationFrame extends JFrame {
         CronometroPanel cronometroView = new CronometroPanel();
         TarefaPanel tarefaPanel = new TarefaPanel();
         
+        cronometroView.addCronometroListener( tarefaPanel.onNextStep() );
+        
         add(cronometroView,BorderLayout.WEST);
         add(tarefaPanel,BorderLayout.CENTER);
         

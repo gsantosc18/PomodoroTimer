@@ -5,21 +5,14 @@
  */
 package com.inicial.pomodoro.view;
 
+import com.inicial.pomodoro.model.CronometroEvent;
 import com.inicial.pomodoro.model.Step;
 import com.inicial.pomodoro.model.StepEventInterface;
 import com.inicial.pomodoro.model.StepInterface;
 import com.inicial.pomodoro.model.TimeEventInterface;
 import com.inicial.pomodoro.model.Timer;
 import com.inicial.pomodoro.model.TimerInterface;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.Action;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.text.PlainDocument;
 
 /**
  *
@@ -27,8 +20,9 @@ import javax.swing.text.PlainDocument;
  */
 public class CronometroPanel extends javax.swing.JPanel {
     
-    TimerInterface cronometro;
-    StepInterface step;
+    private TimerInterface cronometro;
+    private StepInterface step;
+    private CronometroEvent cronometroEvent;
     
     private boolean stepPlayed = true;
     private boolean stepPaused = false;
@@ -49,6 +43,10 @@ public class CronometroPanel extends javax.swing.JPanel {
         step.setNumber(lbStepNumber);
         step.setStatus(lbStepStatus);
         step.addListener(stepEventListener());
+    }
+    
+    public void addCronometroListener(CronometroEvent cronometroEvent) {
+        this.cronometroEvent = cronometroEvent;
     }
 
     /**
@@ -168,6 +166,8 @@ public class CronometroPanel extends javax.swing.JPanel {
             return;
         }
         resetCronometro(cronometro, evt);
+        if(stepPlayed)
+            cronometroEvent.onNextStep();
     }//GEN-LAST:event_btnNextStepActionPerformed
 
     private void btnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopActionPerformed
@@ -271,17 +271,17 @@ public class CronometroPanel extends javax.swing.JPanel {
     
     private boolean isPause(int contador)
     {
-        return contador == (2 * MINUTE);
+        return contador == (TIMEPAUSE * MINUTE);
     }
     
     private boolean isStep(int contador)
     {
-        return contador == (2 * MINUTE);
+        return contador == (TIMESTEP * MINUTE);
     }
     
     private boolean isLongPause(int contador)
     {
-        return contador == (2 * MINUTE);
+        return contador == (TIMELONGPAUSE * MINUTE);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

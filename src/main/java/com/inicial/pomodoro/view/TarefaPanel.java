@@ -5,6 +5,7 @@
  */
 package com.inicial.pomodoro.view;
 
+import com.inicial.pomodoro.model.CronometroEvent;
 import java.awt.Component;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +28,16 @@ public class TarefaPanel extends javax.swing.JPanel {
      */
     public TarefaPanel() {
         initComponents();
+    }
+    
+    public CronometroEvent onNextStep()
+    {
+        return new CronometroEvent() {
+            @Override
+            public void onNextStep() {
+                System.out.println("Foi para o promixo");
+            }
+        };
     }
 
     /**
@@ -106,7 +117,8 @@ public class TarefaPanel extends javax.swing.JPanel {
 
     private void btnAddTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTaskActionPerformed
         String tarefa = JOptionPane.showInputDialog("Descrição da tarefa");
-        dataModel.addRow(new Object[]{ tarefa, "" });
+        if(tarefa!=null && !tarefa.isEmpty())
+            dataModel.addRow(new Object[]{ tarefa, "" });
     }//GEN-LAST:event_btnAddTaskActionPerformed
     
     private void table()
