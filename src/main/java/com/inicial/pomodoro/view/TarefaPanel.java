@@ -7,6 +7,7 @@ package com.inicial.pomodoro.view;
 
 import com.inicial.pomodoro.model.CronometroEvent;
 import java.awt.Component;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractCellEditor;
@@ -25,6 +26,7 @@ import javax.swing.table.TableCellRenderer;
 public class TarefaPanel extends javax.swing.JPanel {
     
     private DefaultTableModel dataModel;
+    private int pointTask = 0;
     
     /**
      * Creates new form TarefaPanel
@@ -38,7 +40,11 @@ public class TarefaPanel extends javax.swing.JPanel {
         return new CronometroEvent() {
             @Override
             public void onNextStep() {
-                System.out.println("Foi para o promixo");
+                int countData = dataModel.getRowCount();
+                if(countData > 0  && pointTask < countData) {
+                    dataModel.setValueAt(true, pointTask, 0);
+                    pointTask++;
+                }
             }
         };
     }
@@ -111,7 +117,7 @@ public class TarefaPanel extends javax.swing.JPanel {
     private void btnAddTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTaskActionPerformed
         String tarefa = JOptionPane.showInputDialog("Descrição da tarefa");
         if(tarefa!=null && !tarefa.isEmpty())
-            dataModel.addRow(new Object[]{ true, tarefa, false });
+            dataModel.addRow(new Object[]{ false, tarefa, false });
     }//GEN-LAST:event_btnAddTaskActionPerformed
     
     private void table()
