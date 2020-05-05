@@ -165,9 +165,12 @@ public class CronometroPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "É necessário iniciar o cronometro.");
             return;
         }
-        resetCronometro(cronometro, evt);
-        if(stepPlayed)
+        
+        if(stepPlayed) {
             cronometroEvent.onNextStep();
+        }
+        
+        resetCronometro(cronometro, evt);
     }//GEN-LAST:event_btnNextStepActionPerformed
 
     private void btnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopActionPerformed
@@ -218,10 +221,9 @@ public class CronometroPanel extends javax.swing.JPanel {
                     if (stepPaused) {
                         if(isPause(contador)) resetCronometro(timer, evt);
                     } else if(stepPlayed) {
-                        if(isStep(contador)) resetCronometro(timer, evt);
+                        if(isStep(contador)) btnNextStepActionPerformed(evt);
                     } else if(stepLongPaused) {
                         if (isLongPause(contador)) {
-//                            resetCronometro(timer, evt);
                             step.reset();
                         }
                     }
