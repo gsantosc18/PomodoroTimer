@@ -1,18 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package com.inicial.pomodoro.view;
 
 import com.inicial.pomodoro.model.CronometroEvent;
 import java.awt.Component;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractCellEditor;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 /**
@@ -22,7 +25,7 @@ import javax.swing.table.TableCellRenderer;
 public class TarefaPanel extends javax.swing.JPanel {
     
     private DefaultTableModel dataModel;
-
+    
     /**
      * Creates new form TarefaPanel
      */
@@ -39,7 +42,7 @@ public class TarefaPanel extends javax.swing.JPanel {
             }
         };
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,26 +68,16 @@ public class TarefaPanel extends javax.swing.JPanel {
 
         table();
         tableContent.setModel(dataModel);
-        tableContent.setEnabled(false);
-        int size = 120;
-        int height = 20;
+        setSizeColumn(0, 120);
+        setSizeColumn(2, 120);
 
-        tableContent
-        .getColumnModel()
-        .getColumn(1)
-        .setMaxWidth(size);
+        setRenderColumn(2,new ButtonRenderTarefa("Remover") );
 
-        tableContent
-        .getColumnModel()
-        .getColumn(1)
-        .setMinWidth(size);
+        setRenderColumn(0,new CheckBoxRenderTarefa() );
 
-        tableContent
-        .getColumnModel()
-        .getColumn(1)
-        .setCellRenderer( new ButtonRenderTarefa("Remover") );
+        setEditorColumn(0,new CheckEditorTarefa());
 
-        tableContent.setRowHeight(height);
+        tableContent.setRowHeight(20);
         tableContent.addMouseListener(onCellClick());
         jScrollPane1.setViewportView(tableContent);
 
@@ -118,16 +111,30 @@ public class TarefaPanel extends javax.swing.JPanel {
     private void btnAddTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTaskActionPerformed
         String tarefa = JOptionPane.showInputDialog("Descrição da tarefa");
         if(tarefa!=null && !tarefa.isEmpty())
-            dataModel.addRow(new Object[]{ tarefa, "" });
+            dataModel.addRow(new Object[]{ true, tarefa, false });
     }//GEN-LAST:event_btnAddTaskActionPerformed
     
     private void table()
     {
         try {
             dataModel = new DefaultTableModel(
-                new Object[][]{},
-                new Object[]{"Descrição","Remover"}
-            );
+                    new Object[][]{},
+                    new Object[]{"Editar","Descrição","Remover"}
+            ){
+                @Override
+                public Class getColumnClass(int columnIndex) {
+                    switch(columnIndex) {
+                        case 0: return JCheckBox.class;
+                        case 2: return JButton.class;
+                        default: return String.class;
+                    }
+                }
+                
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return columnIndex != 2;
+                }
+            };
         } catch (Exception ex) {
             Logger.getLogger(TarefaPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -139,11 +146,38 @@ public class TarefaPanel extends javax.swing.JPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 int col = tableContent.columnAtPoint(evt.getPoint());
                 int row = tableContent.rowAtPoint(evt.getPoint());
-                if (col == 1) {
+                if (col == 2) {
                     ((DefaultTableModel)tableContent.getModel()).removeRow(row);
                 }
             }
         };
+    }
+    
+    private void setSizeColumn(int column, int size) {
+        tableContent
+                .getColumnModel()
+                .getColumn(column)
+                .setMaxWidth(size);
+        
+        tableContent
+                .getColumnModel()
+                .getColumn(column)
+                .setMinWidth(size);
+    }
+    
+    private void setRenderColumn(int column, TableCellRenderer renderer) {
+        tableContent
+                .getColumnModel()
+                .getColumn(column)
+                .setCellRenderer(renderer);
+    }
+    
+    private void setEditorColumn(int column, TableCellEditor editor)
+    {
+        tableContent
+                .getColumnModel()
+                .getColumn(column)
+                .setCellEditor(editor);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -153,7 +187,7 @@ public class TarefaPanel extends javax.swing.JPanel {
     private javax.swing.JTable tableContent;
     // End of variables declaration//GEN-END:variables
     class ButtonRenderTarefa implements TableCellRenderer {
-        private JButton button;
+        private final JButton button;
         
         public ButtonRenderTarefa(String title) {
             button = new JButton(title);
@@ -163,6 +197,46 @@ public class TarefaPanel extends javax.swing.JPanel {
         public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
             return button;
         }
+    }
+    
+    public class CheckEditorTarefa extends AbstractCellEditor implements TableCellEditor
+    {
+        JCheckBox checkBox;
+        int editedRow;
+        int editedColumn;
         
+        CheckEditorTarefa(){
+            checkBox = new JCheckBox();
+        }
+        
+        @Override
+        public Component getTableCellEditorComponent(JTable table,
+                Object value, boolean isSelected, int row, int column) {
+            checkBox.setSelected((Boolean) value);
+            return checkBox;
+        }
+        
+        @Override
+        public Object getCellEditorValue() {
+            return checkBox.isSelected();
+        }
+    }
+    
+    class CheckBoxRenderTarefa implements TableCellRenderer {
+        private final JCheckBox checkbox;
+        
+        public CheckBoxRenderTarefa() {
+            checkbox = new JCheckBox();
+        }
+        
+        @Override
+        public Component getTableCellRendererComponent(
+                JTable jtable, Object o, boolean bln,
+                boolean bln1, int i, int i1) {
+            try {
+                checkbox.setSelected((Boolean) o);
+            } catch (Exception e) {}
+            return checkbox;
+        }
     }
 }

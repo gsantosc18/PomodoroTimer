@@ -4,7 +4,9 @@
 /home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/model/TimeEventInterface.java
 /home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/model/Timer.java
 /home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/view/ApplicationFrame.java
+/home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/view/fragment/CardActionTableTarefa.java
 /home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/model/StepInterface.java
+/home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/model/CronometroEvent.java
 /home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/view/CronometroPanel.java
 /home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/controller/ApplicationController.java
 /home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/model/StepEventInterface.java
