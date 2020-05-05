@@ -35,8 +35,7 @@ public class TarefaPanel extends javax.swing.JPanel {
         initComponents();
     }
     
-    public CronometroEvent onNextStep()
-    {
+    public CronometroEvent onNextStep() {
         return new CronometroEvent() {
             @Override
             public void onNextStep() {
@@ -62,6 +61,7 @@ public class TarefaPanel extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableContent = new javax.swing.JTable();
+        btnClearAll = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -87,6 +87,13 @@ public class TarefaPanel extends javax.swing.JPanel {
         tableContent.addMouseListener(onCellClick());
         jScrollPane1.setViewportView(tableContent);
 
+        btnClearAll.setText("Limpar Tudo");
+        btnClearAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearAllActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -96,8 +103,9 @@ public class TarefaPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAddTask)
-                        .addGap(0, 254, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnClearAll))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
@@ -105,7 +113,9 @@ public class TarefaPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(btnAddTask)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddTask)
+                    .addComponent(btnClearAll))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -119,9 +129,14 @@ public class TarefaPanel extends javax.swing.JPanel {
         if(tarefa!=null && !tarefa.isEmpty())
             dataModel.addRow(new Object[]{ false, tarefa, false });
     }//GEN-LAST:event_btnAddTaskActionPerformed
+
+    private void btnClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearAllActionPerformed
+        dataModel.getDataVector().clear();
+        tableContent.updateUI();
+        pointTask = 0;
+    }//GEN-LAST:event_btnClearAllActionPerformed
     
-    private void table()
-    {
+    private void table() {
         try {
             dataModel = new DefaultTableModel(
                     new Object[][]{},
@@ -146,7 +161,7 @@ public class TarefaPanel extends javax.swing.JPanel {
         }
     }
     
-    private java.awt.event.MouseAdapter onCellClick(){
+    private java.awt.event.MouseAdapter onCellClick() {
         return new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -178,8 +193,7 @@ public class TarefaPanel extends javax.swing.JPanel {
                 .setCellRenderer(renderer);
     }
     
-    private void setEditorColumn(int column, TableCellEditor editor)
-    {
+    private void setEditorColumn(int column, TableCellEditor editor) {
         tableContent
                 .getColumnModel()
                 .getColumn(column)
@@ -188,6 +202,7 @@ public class TarefaPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddTask;
+    private javax.swing.JButton btnClearAll;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable tableContent;
@@ -205,8 +220,7 @@ public class TarefaPanel extends javax.swing.JPanel {
         }
     }
     
-    public class CheckEditorTarefa extends AbstractCellEditor implements TableCellEditor
-    {
+    class CheckEditorTarefa extends AbstractCellEditor implements TableCellEditor {
         JCheckBox checkBox;
         int editedRow;
         int editedColumn;
