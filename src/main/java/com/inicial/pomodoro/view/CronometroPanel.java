@@ -5,6 +5,7 @@
  */
 package com.inicial.pomodoro.view;
 
+import com.inicial.pomodoro.model.ConfigCronometroEvent;
 import com.inicial.pomodoro.model.CronometroEvent;
 import com.inicial.pomodoro.model.Step;
 import com.inicial.pomodoro.model.StepEventInterface;
@@ -12,6 +13,7 @@ import com.inicial.pomodoro.model.StepInterface;
 import com.inicial.pomodoro.model.TimeEventInterface;
 import com.inicial.pomodoro.model.Timer;
 import com.inicial.pomodoro.model.TimerInterface;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -66,6 +68,12 @@ public class CronometroPanel extends javax.swing.JPanel {
         btnReset = new javax.swing.JButton();
         lbStepStatus = new javax.swing.JLabel();
         stepProgress = new javax.swing.JProgressBar();
+        btnConfigCronometro = new javax.swing.JButton();
+        lbTimeStep = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lbTimePause = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        lbTimeLongPause = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -115,36 +123,76 @@ public class CronometroPanel extends javax.swing.JPanel {
         stepProgress.setMaximumSize(new java.awt.Dimension(10, 20));
         stepProgress.setPreferredSize(new java.awt.Dimension(10, 20));
 
+        btnConfigCronometro.setText("Config");
+        btnConfigCronometro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfigCronometroActionPerformed(evt);
+            }
+        });
+
+        lbTimeStep.setFont(new java.awt.Font("DejaVu Sans", 1, 14)); // NOI18N
+        lbTimeStep.setText("25");
+
+        jLabel2.setText("/");
+
+        lbTimePause.setFont(new java.awt.Font("DejaVu Sans", 1, 14)); // NOI18N
+        lbTimePause.setText("5");
+
+        jLabel4.setText("/");
+
+        lbTimeLongPause.setFont(new java.awt.Font("DejaVu Sans", 1, 14)); // NOI18N
+        lbTimeLongPause.setText("30");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnConfigCronometro)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(stepProgress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNextStep, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(stepProgress, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbStepStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbStepNumber)
-                        .addGap(0, 3, Short.MAX_VALUE))
-                    .addComponent(showTimer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnPlayPause, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)
                         .addComponent(btnStop, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnReset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnReset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(showTimer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lbTimeStep)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbTimePause)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbTimeLongPause)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbStepStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbStepNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(61, Short.MAX_VALUE)
+                .addComponent(btnConfigCronometro)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbStepNumber)
-                    .addComponent(lbStepStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbStepStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbTimeStep)
+                        .addComponent(jLabel2)
+                        .addComponent(lbTimePause)
+                        .addComponent(jLabel4)
+                        .addComponent(lbTimeLongPause)))
                 .addGap(6, 6, 6)
                 .addComponent(showTimer)
                 .addGap(6, 6, 6)
@@ -213,8 +261,27 @@ public class CronometroPanel extends javax.swing.JPanel {
         resetAll();
     }//GEN-LAST:event_btnResetActionPerformed
 
-    private TimeEventInterface cronometroEventListener(java.awt.event.ActionEvent evt)
-    {
+    private void btnConfigCronometroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfigCronometroActionPerformed
+        if(cronometro!=null&&!cronometro.isPaused()) {
+            btnPlayPauseActionPerformed(evt);
+        }
+        
+        ConfigCronometroFrame frame = ConfigCronometroFrame.init();
+        frame.addListener(new ConfigCronometroEvent() {
+            @Override
+            public void onSave(int tarefa, int pausa, int longaPausa) {
+                TIMESTEP = tarefa;
+                TIMEPAUSE = pausa;
+                TIMELONGPAUSE = longaPausa;
+                lbTimeStep.setText(String.valueOf(TIMESTEP));
+                lbTimePause.setText(String.valueOf(TIMEPAUSE));
+                lbTimeLongPause.setText(String.valueOf(TIMELONGPAUSE));
+            }
+        });
+        frame.setVisible(true);
+    }//GEN-LAST:event_btnConfigCronometroActionPerformed
+
+    private TimeEventInterface cronometroEventListener(java.awt.event.ActionEvent evt) {
         return new TimeEventInterface() {
                 @Override
                 public void onChange(Timer timer, int contador) {
@@ -231,8 +298,7 @@ public class CronometroPanel extends javax.swing.JPanel {
             };
     }
     
-    private StepEventInterface stepEventListener()
-    {
+    private StepEventInterface stepEventListener() {
         return new StepEventInterface() {
             @Override
             public void onChange(String status, int contStep, int contPause) {
@@ -248,51 +314,51 @@ public class CronometroPanel extends javax.swing.JPanel {
         };
     }
     
-    private void resetCronometro(TimerInterface timer, java.awt.event.ActionEvent evt)
-    {
+    private void resetCronometro(TimerInterface timer, java.awt.event.ActionEvent evt) {
         btnPlayPauseActionPerformed(evt);
         btnPlayPauseActionPerformed(evt);
         timer.reset();
         step.nextStep();
     }
     
-    private void changeValuesOfConfigCronometro(boolean play, boolean pause, boolean longPause)
-    {
+    private void changeValuesOfConfigCronometro(boolean play, boolean pause, boolean longPause) {
         this.stepPlayed = play;
         this.stepPaused = pause;
         this.stepLongPaused = longPause;
     }
     
-    private void resetAll()
-    {
+    private void resetAll() {
         cronometro.reset();
         step.reset();
         changeValuesOfConfigCronometro(true, false, false);
         stepProgress.setValue(1);
     }
     
-    private boolean isPause(int contador)
-    {
+    private boolean isPause(int contador) {
         return contador == (TIMEPAUSE * MINUTE);
     }
     
-    private boolean isStep(int contador)
-    {
+    private boolean isStep(int contador) {
         return contador == (TIMESTEP * MINUTE);
     }
     
-    private boolean isLongPause(int contador)
-    {
+    private boolean isLongPause(int contador) {
         return contador == (TIMELONGPAUSE * MINUTE);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnConfigCronometro;
     private javax.swing.JButton btnNextStep;
     private javax.swing.JButton btnPlayPause;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnStop;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel lbStepNumber;
     private javax.swing.JLabel lbStepStatus;
+    private javax.swing.JLabel lbTimeLongPause;
+    private javax.swing.JLabel lbTimePause;
+    private javax.swing.JLabel lbTimeStep;
     private javax.swing.JLabel showTimer;
     private javax.swing.JProgressBar stepProgress;
     // End of variables declaration//GEN-END:variables
