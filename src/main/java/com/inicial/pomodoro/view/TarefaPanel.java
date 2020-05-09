@@ -6,11 +6,13 @@
 package com.inicial.pomodoro.view;
 
 import com.inicial.pomodoro.model.CronometroEvent;
+import com.inicial.pomodoro.model.icon.MaterializeIconFactory;
 import java.awt.Component;
-import java.util.Vector;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractCellEditor;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
@@ -61,7 +63,7 @@ public class TarefaPanel extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableContent = new javax.swing.JTable();
-        btnClearAll = new javax.swing.JButton();
+        btnClearAll = new javax.swing.JButton(getIcon("delete-sweep"));
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -77,7 +79,7 @@ public class TarefaPanel extends javax.swing.JPanel {
         setSizeColumn(0, 120);
         setSizeColumn(2, 120);
 
-        setRenderColumn(2,new ButtonRenderTarefa("Remover") );
+        setRenderColumn(2,new ButtonRenderTarefa(getIcon("delete")) );
 
         setRenderColumn(0,new CheckBoxRenderTarefa() );
 
@@ -87,7 +89,7 @@ public class TarefaPanel extends javax.swing.JPanel {
         tableContent.addMouseListener(onCellClick());
         jScrollPane1.setViewportView(tableContent);
 
-        btnClearAll.setText("Limpar Tudo");
+        btnClearAll.setText("");
         btnClearAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnClearAllActionPerformed(evt);
@@ -104,7 +106,7 @@ public class TarefaPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAddTask)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnClearAll))
+                        .addComponent(btnClearAll, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
@@ -199,6 +201,15 @@ public class TarefaPanel extends javax.swing.JPanel {
                 .getColumn(column)
                 .setCellEditor(editor);
     }
+    
+    private ImageIcon getIcon(String icon){
+        try {
+            return new MaterializeIconFactory().build(icon);
+        } catch (IOException ex) {
+            Logger.getLogger(CronometroPanel.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddTask;
@@ -212,6 +223,10 @@ public class TarefaPanel extends javax.swing.JPanel {
         
         public ButtonRenderTarefa(String title) {
             button = new JButton(title);
+        }
+        
+        public ButtonRenderTarefa(ImageIcon icon) {
+            button = new JButton(icon);
         }
         
         @Override

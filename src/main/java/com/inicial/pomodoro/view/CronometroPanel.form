@@ -65,15 +65,15 @@
               <Component id="btnConfigCronometro" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="20" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                      <Component id="lbStepStatus" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                      <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                           <Component id="lbTimerStep" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lbTimerPause" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lbTimerLongPause" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="lbStepStatus" min="-2" pref="21" max="-2" attributes="0"/>
                   </Group>
                   <Component id="lbStepNumber" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -106,27 +106,42 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnPlayPause">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Play"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="&quot;&quot;" type="code"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPlayPauseActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JButton(getIcon(&quot;play&quot;))"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="btnStop">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Stop"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="&quot;&quot;" type="code"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnStopActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JButton(getIcon(&quot;stop&quot;))"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="btnNextStep">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Next"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="&quot;&quot;" type="code"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNextStepActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JButton(getIcon(&quot;next&quot;))"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="lbStepNumber">
       <Properties>
@@ -138,11 +153,16 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnReset">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Reset"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="&quot;&quot;" type="code"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnResetActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JButton(getIcon(&quot;refresh&quot;))"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="lbStepStatus">
       <Properties>
@@ -169,11 +189,16 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnConfigCronometro">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Config"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="&quot;&quot;" type="code"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConfigCronometroActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JButton(getIcon(&quot;setting&quot;))"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="lbTimerStep">
       <Properties>

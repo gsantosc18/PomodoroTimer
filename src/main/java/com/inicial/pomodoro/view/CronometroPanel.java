@@ -16,6 +16,11 @@ import com.inicial.pomodoro.model.StepSound;
 import com.inicial.pomodoro.model.TimeEventInterface;
 import com.inicial.pomodoro.model.Timer;
 import com.inicial.pomodoro.model.TimerInterface;
+import com.inicial.pomodoro.model.icon.MaterializeIconFactory;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -37,11 +42,11 @@ public class CronometroPanel extends javax.swing.JPanel {
     public static int TIMELONGPAUSE = 30;
     
     private int MINUTE = 60;
-
+    
     /**
      * Creates new form CronometroView
      */
-    public CronometroPanel() {
+    public CronometroPanel(){
         initComponents();
         step = new Step();
         step.setNumber(lbStepNumber);
@@ -63,14 +68,14 @@ public class CronometroPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         showTimer = new javax.swing.JLabel();
-        btnPlayPause = new javax.swing.JButton();
-        btnStop = new javax.swing.JButton();
-        btnNextStep = new javax.swing.JButton();
+        btnPlayPause = new javax.swing.JButton(getIcon("play"));
+        btnStop = new javax.swing.JButton(getIcon("stop"));
+        btnNextStep = new javax.swing.JButton(getIcon("next"));
         lbStepNumber = new javax.swing.JLabel();
-        btnReset = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton(getIcon("refresh"));
         lbStepStatus = new javax.swing.JLabel();
         stepProgress = new javax.swing.JProgressBar();
-        btnConfigCronometro = new javax.swing.JButton();
+        btnConfigCronometro = new javax.swing.JButton(getIcon("setting"));
         lbTimerStep = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         lbTimerPause = new javax.swing.JLabel();
@@ -83,21 +88,21 @@ public class CronometroPanel extends javax.swing.JPanel {
         showTimer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         showTimer.setText("00:00");
 
-        btnPlayPause.setText("Play");
+        btnPlayPause.setText("");
         btnPlayPause.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPlayPauseActionPerformed(evt);
             }
         });
 
-        btnStop.setText("Stop");
+        btnStop.setText("");
         btnStop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnStopActionPerformed(evt);
             }
         });
 
-        btnNextStep.setText("Next");
+        btnNextStep.setText("");
         btnNextStep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNextStepActionPerformed(evt);
@@ -107,7 +112,7 @@ public class CronometroPanel extends javax.swing.JPanel {
         lbStepNumber.setFont(new java.awt.Font("DejaVu Sans", 0, 18)); // NOI18N
         lbStepNumber.setText("1");
 
-        btnReset.setText("Reset");
+        btnReset.setText("");
         btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnResetActionPerformed(evt);
@@ -125,7 +130,7 @@ public class CronometroPanel extends javax.swing.JPanel {
         stepProgress.setMaximumSize(new java.awt.Dimension(10, 20));
         stepProgress.setPreferredSize(new java.awt.Dimension(10, 20));
 
-        btnConfigCronometro.setText("Config");
+        btnConfigCronometro.setText("");
         btnConfigCronometro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConfigCronometroActionPerformed(evt);
@@ -185,14 +190,14 @@ public class CronometroPanel extends javax.swing.JPanel {
                 .addComponent(btnConfigCronometro)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lbStepStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lbTimerStep)
                             .addComponent(jLabel2)
                             .addComponent(lbTimerPause)
                             .addComponent(jLabel4)
-                            .addComponent(lbTimerLongPause)))
+                            .addComponent(lbTimerLongPause))
+                        .addComponent(lbStepStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lbStepNumber, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(7, 7, 7)
                 .addComponent(showTimer)
@@ -333,6 +338,15 @@ public class CronometroPanel extends javax.swing.JPanel {
         this.stepPlayed = play;
         this.stepPaused = pause;
         this.stepLongPaused = longPause;
+    }
+    
+    private ImageIcon getIcon(String icon){
+        try {
+            return new MaterializeIconFactory().build(icon,20,20);
+        } catch (IOException ex) {
+            Logger.getLogger(CronometroPanel.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
     
     private void resetAll() {
