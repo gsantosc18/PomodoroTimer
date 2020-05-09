@@ -1,3 +1,4 @@
+com/inicial/pomodoro/model/LongPauseSound.class
 com/inicial/pomodoro/view/TarefaPanel$5.class
 com/inicial/pomodoro/model/StepEventInterface.class
 com/inicial/pomodoro/view/CronometroPanel$6.class
@@ -10,11 +11,13 @@ com/inicial/pomodoro/view/TarefaPanel.class
 com/inicial/pomodoro/view/ConfigCronometroPanel$2.class
 com/inicial/pomodoro/model/TimeEventInterface.class
 com/inicial/pomodoro/model/Timer$1.class
+com/inicial/pomodoro/model/PauseSound$1.class
 com/inicial/pomodoro/view/CronometroPanel.class
 com/inicial/pomodoro/controller/ApplicationController.class
 com/inicial/pomodoro/view/ConfigCronometroPanel$3.class
 com/inicial/pomodoro/view/ApplicationFrame.class
 com/inicial/pomodoro/view/TarefaPanel$1.class
+com/inicial/pomodoro/model/SoundAbstract$1.class
 com/inicial/pomodoro/view/CronometroPanel$7.class
 com/inicial/pomodoro/view/ConfigCronometroPanel.class
 com/inicial/pomodoro/model/StepSound$1.class
@@ -36,5 +39,7 @@ com/inicial/pomodoro/model/Sound.class
 com/inicial/pomodoro/view/CronometroPanel$8.class
 com/inicial/pomodoro/view/CronometroPanel$3.class
 com/inicial/pomodoro/view/ConfigCronometroFrame.class
+com/inicial/pomodoro/model/LongPauseSound$1.class
 com/inicial/pomodoro/view/TarefaPanel$CheckEditorTarefa.class
 com/inicial/pomodoro/model/Step.class
+com/inicial/pomodoro/model/PauseSound.class

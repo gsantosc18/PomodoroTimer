@@ -8,9 +8,11 @@
 /home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/controller/ApplicationController.java
 /home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/model/Sound.java
 /home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/view/ConfigCronometroFrame.java
+/home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/model/PauseSound.java
 /home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/view/ConfigCronometroPanel.java
 /home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/model/TimerInterface.java
 /home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/model/Timer.java
+/home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/model/LongPauseSound.java
 /home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/view/ApplicationFrame.java
 /home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/model/StepInterface.java
 /home/myhouse/NetBeansProjects/Pomodoro/src/main/java/com/inicial/pomodoro/view/CronometroPanel.java
