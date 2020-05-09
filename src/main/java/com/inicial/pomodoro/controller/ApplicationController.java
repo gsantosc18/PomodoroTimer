@@ -12,7 +12,7 @@ import com.inicial.pomodoro.view.ApplicationFrame;
  * @author myhouse
  */
 public class ApplicationController {
-    public static void main(String[] args) {
+    public static void main(String[] args){
         ApplicationFrame applicationFrame = ApplicationFrame.getInstance();
         applicationFrame.pack();
         applicationFrame.setVisible(true);
