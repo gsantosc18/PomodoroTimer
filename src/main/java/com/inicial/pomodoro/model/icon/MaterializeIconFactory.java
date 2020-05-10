@@ -30,6 +30,8 @@ public class MaterializeIconFactory extends IconFactory {
                 return new DeleteSweepIcon();
             case "refresh":
                 return new RefreshIcon();
+            case "pluss":
+                return new PlussIcon();
             default: return null;
         }
     }

@@ -59,7 +59,7 @@ public class TarefaPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnAddTask = new javax.swing.JButton();
+        btnAddTask = new javax.swing.JButton(getIcon("pluss"));
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableContent = new javax.swing.JTable();
@@ -67,7 +67,7 @@ public class TarefaPanel extends javax.swing.JPanel {
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btnAddTask.setText("Add Task");
+        btnAddTask.setText("Tarefa");
         btnAddTask.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddTaskActionPerformed(evt);

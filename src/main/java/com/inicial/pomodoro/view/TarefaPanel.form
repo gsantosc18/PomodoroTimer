@@ -58,11 +58,14 @@
   <SubComponents>
     <Component class="javax.swing.JButton" name="btnAddTask">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Add Task"/>
+        <Property name="text" type="java.lang.String" value="Tarefa"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddTaskActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JButton(getIcon(&quot;pluss&quot;))"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator1">
     </Component>
