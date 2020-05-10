@@ -17,6 +17,7 @@ import com.inicial.pomodoro.model.TimeEventInterface;
 import com.inicial.pomodoro.model.Timer;
 import com.inicial.pomodoro.model.TimerInterface;
 import com.inicial.pomodoro.model.icon.MaterializeIconFactory;
+import java.awt.event.WindowAdapter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -273,7 +274,7 @@ public class CronometroPanel extends javax.swing.JPanel {
         }
         
         ConfigCronometroFrame frame = ConfigCronometroFrame.init();
-        frame.addListener(new ConfigCronometroEvent() {
+        frame.addConfigCronometroListener(new ConfigCronometroEvent() {
             @Override
             public void onSave(int tarefa, int pausa, int longaPausa) {
                 TIMESTEP = tarefa;
@@ -282,6 +283,17 @@ public class CronometroPanel extends javax.swing.JPanel {
                 lbTimerStep.setText(String.valueOf(TIMESTEP));
                 lbTimerPause.setText(String.valueOf(TIMEPAUSE));
                 lbTimerLongPause.setText(String.valueOf(TIMELONGPAUSE));
+                if(cronometro!=null&&!cronometro.isPaused()) {
+                    btnPlayPauseActionPerformed(evt);
+                }
+            }
+        });
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if(cronometro!=null&&!cronometro.isPaused()) {
+                    btnPlayPauseActionPerformed(evt);
+                }
             }
         });
         frame.setVisible(true);
@@ -357,15 +369,15 @@ public class CronometroPanel extends javax.swing.JPanel {
     }
     
     private boolean isPause(int contador) {
-        return contador == (TIMEPAUSE * MINUTE);
+        return contador >= (TIMEPAUSE * MINUTE);
     }
     
     private boolean isStep(int contador) {
-        return contador == (TIMESTEP * MINUTE);
+        return contador >= (TIMESTEP * MINUTE);
     }
     
     private boolean isLongPause(int contador) {
-        return contador == (TIMELONGPAUSE * MINUTE);
+        return contador >= (TIMELONGPAUSE * MINUTE);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

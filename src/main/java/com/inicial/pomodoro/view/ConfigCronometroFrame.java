@@ -31,7 +31,7 @@ public class ConfigCronometroFrame extends JFrame{
         return app;
     }
     
-    public void addListener(ConfigCronometroEvent cronometroEvent)
+    public void addConfigCronometroListener(ConfigCronometroEvent cronometroEvent)
     {
         this.panel.addListener(new ConfigCronometroEvent() {
             @Override
