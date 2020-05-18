@@ -261,7 +261,7 @@ public class CronometroPanel extends javax.swing.JPanel {
         }
         cronometro.stop();
         cronometro = null;
-        this.btnPlayPause.setText("Play");
+        this.btnPlayPause.setIcon(getIcon("play"));
     }//GEN-LAST:event_btnStopActionPerformed
 
     private void btnPlayPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseActionPerformed
