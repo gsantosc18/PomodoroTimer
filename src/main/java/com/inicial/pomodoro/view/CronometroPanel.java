@@ -7,12 +7,13 @@ package com.inicial.pomodoro.view;
 
 import com.inicial.pomodoro.model.ConfigCronometroEvent;
 import com.inicial.pomodoro.model.CronometroEvent;
-import com.inicial.pomodoro.model.LongPauseSound;
-import com.inicial.pomodoro.model.PauseSound;
+//import com.inicial.pomodoro.model.LongPauseSound;
+import com.inicial.pomodoro.model.NotificationSound;
+//import com.inicial.pomodoro.model.PauseSound;
 import com.inicial.pomodoro.model.Step;
 import com.inicial.pomodoro.model.StepEventInterface;
 import com.inicial.pomodoro.model.StepInterface;
-import com.inicial.pomodoro.model.StepSound;
+//import com.inicial.pomodoro.model.StepSound;
 import com.inicial.pomodoro.model.TimeEventInterface;
 import com.inicial.pomodoro.model.Timer;
 import com.inicial.pomodoro.model.TimerInterface;
@@ -308,7 +309,7 @@ public class CronometroPanel extends javax.swing.JPanel {
                 lbTimerStep.setText(String.valueOf(TIMESTEP));
                 lbTimerPause.setText(String.valueOf(TIMEPAUSE));
                 lbTimerLongPause.setText(String.valueOf(TIMELONGPAUSE));
-                if(cronometro!=null&&!cronometro.isPaused()) {
+                if(cronometro!=null&&cronometro.isPaused()) {
                     btnPlayPauseActionPerformed(evt);
                 }
             }
@@ -316,9 +317,10 @@ public class CronometroPanel extends javax.swing.JPanel {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                if(cronometro!=null&&!cronometro.isPaused()) {
+                if(cronometro!=null&&cronometro.isPaused()) {
                     btnPlayPauseActionPerformed(evt);
                 }
+                System.out.println("Fechou!");
             }
         });
         frame.setVisible(true);
@@ -330,17 +332,17 @@ public class CronometroPanel extends javax.swing.JPanel {
                 public void onChange(Timer timer, int contador) {
                     if (stepPaused) {
                         if(isPause(contador)) { 
-                            new PauseSound().reproduzir();
+                            new NotificationSound().reproduzir();
                             resetCronometro(timer, evt);
                         }
                     } else if(stepPlayed) {
                         if(isStep(contador)) {
-                            new StepSound().reproduzir();
+                            new NotificationSound().reproduzir();
                             btnNextStepActionPerformed(evt);
                         }
                     } else if(stepLongPaused) {
                         if (isLongPause(contador)) {
-                            new LongPauseSound().reproduzir();
+                            new NotificationSound().reproduzir();
                             step.reset();
                         }
                     }
