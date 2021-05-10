@@ -7,13 +7,10 @@ package com.inicial.pomodoro.view;
 
 import com.inicial.pomodoro.model.ConfigCronometroEvent;
 import com.inicial.pomodoro.model.CronometroEvent;
-//import com.inicial.pomodoro.model.LongPauseSound;
 import com.inicial.pomodoro.model.NotificationSound;
-//import com.inicial.pomodoro.model.PauseSound;
 import com.inicial.pomodoro.model.Step;
 import com.inicial.pomodoro.model.StepEventInterface;
 import com.inicial.pomodoro.model.StepInterface;
-//import com.inicial.pomodoro.model.StepSound;
 import com.inicial.pomodoro.model.TimeEventInterface;
 import com.inicial.pomodoro.model.Timer;
 import com.inicial.pomodoro.model.TimerInterface;
@@ -320,7 +317,6 @@ public class CronometroPanel extends javax.swing.JPanel {
                 if(cronometro!=null&&cronometro.isPaused()) {
                     btnPlayPauseActionPerformed(evt);
                 }
-                System.out.println("Fechou!");
             }
         });
         frame.setVisible(true);
@@ -343,7 +339,7 @@ public class CronometroPanel extends javax.swing.JPanel {
                     } else if(stepLongPaused) {
                         if (isLongPause(contador)) {
                             new NotificationSound().reproduzir();
-                            step.reset();
+                            resetCronometro(timer, evt);
                         }
                     }
                 }
