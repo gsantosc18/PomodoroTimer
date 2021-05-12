@@ -2,13 +2,18 @@
 * To change this license header, choose License Headers in Project Properties.
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
-*/
+ */
 package com.inicial.pomodoro.view;
 
+import com.inicial.pomodoro.controller.exceptions.NonexistentEntityException;
+import com.inicial.pomodoro.dao.TaskDao;
+import com.inicial.pomodoro.entity.Task;
 import com.inicial.pomodoro.model.CronometroEvent;
 import com.inicial.pomodoro.model.icon.MaterializeIconFactory;
 import java.awt.Component;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractCellEditor;
@@ -26,30 +31,54 @@ import javax.swing.table.TableCellRenderer;
  * @author myhouse
  */
 public class TarefaPanel extends javax.swing.JPanel {
-    
+
     private DefaultTableModel dataModel;
     private int pointTask = 0;
-    
+    private TaskDao taskDao;
+    private List<Task> tasks;
+
     /**
      * Creates new form TarefaPanel
      */
     public TarefaPanel() {
+        taskDao = new TaskDao();
         initComponents();
+        loadDatabase();
     }
-    
+
+    private void loadDatabase() {
+        removeAllTasks();
+        tasks = taskDao.findTaskEntities();
+        tasks.stream()
+                .forEach(task -> dataModel.addRow(new Object[]{task.getIsChecked() == 1, task.getDescription(), false}));
+    }
+
+    private void removeAllTasks() {
+        while (dataModel.getRowCount() > 0) {
+            dataModel.removeRow(0);
+        }
+    }
+
     public CronometroEvent onNextStep() {
         return new CronometroEvent() {
             @Override
             public void onNextStep() {
                 int countData = dataModel.getRowCount();
-                if(countData > 0  && pointTask < countData) {
+                if (countData > 0 && pointTask < countData) {
+                    Task task = tasks.get(pointTask);
+                    task.setIsChecked(1);
+                    try {
+                        taskDao.edit(task);
+                    } catch (Exception ex) {
+                        Logger.getLogger(TarefaPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     dataModel.setValueAt(true, pointTask, 0);
                     pointTask++;
                 }
             }
         };
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -64,6 +93,7 @@ public class TarefaPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableContent = new javax.swing.JTable();
         btnClearAll = new javax.swing.JButton(getIcon("delete-sweep"));
+        btnRefresh = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -96,6 +126,13 @@ public class TarefaPanel extends javax.swing.JPanel {
             }
         });
 
+        btnRefresh.setText("Atualizar");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -105,6 +142,8 @@ public class TarefaPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAddTask)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnRefresh)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnClearAll, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
@@ -117,7 +156,8 @@ public class TarefaPanel extends javax.swing.JPanel {
                 .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddTask)
-                    .addComponent(btnClearAll))
+                    .addComponent(btnClearAll)
+                    .addComponent(btnRefresh))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -128,33 +168,61 @@ public class TarefaPanel extends javax.swing.JPanel {
 
     private void btnAddTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTaskActionPerformed
         String tarefa = JOptionPane.showInputDialog("Descrição da tarefa");
-        if(tarefa!=null && !tarefa.isEmpty())
-            dataModel.addRow(new Object[]{ false, tarefa, false });
+        if (tarefa != null && !tarefa.isEmpty()) {
+            taskDao.create(Task.builder().description(tarefa).cadastro(LocalDate.now()).build());
+            loadDatabase();
+        }
     }//GEN-LAST:event_btnAddTaskActionPerformed
 
     private void btnClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearAllActionPerformed
+        tasks.stream()
+                .forEach( t -> {
+                    try {
+                        taskDao.destroy(t.getId());
+                    } catch (NonexistentEntityException ex) {
+                        Logger.getLogger(TarefaPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
         dataModel.getDataVector().clear();
         tableContent.updateUI();
         pointTask = 0;
     }//GEN-LAST:event_btnClearAllActionPerformed
-    
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        loadDatabase();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
     private void table() {
         try {
             dataModel = new DefaultTableModel(
                     new Object[][]{},
-                    new Object[]{"Editar","Descrição","Remover"}
-            ){
+                    new Object[]{"Editar", "Descrição", "Remover"}
+            ) {
                 @Override
                 public Class getColumnClass(int columnIndex) {
-                    switch(columnIndex) {
-                        case 0: return JCheckBox.class;
-                        case 2: return JButton.class;
-                        default: return String.class;
+                    switch (columnIndex) {
+                        case 0:
+                            return JCheckBox.class;
+                        case 2:
+                            return JButton.class;
+                        default:
+                            return String.class;
                     }
                 }
-                
+
                 @Override
-                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                public boolean isCellEditable(int rowIndex, int columnIndex){
+                    try {
+                        Task task = tasks.get(rowIndex);
+                        String value = (String) dataModel.getValueAt(rowIndex,1);
+                        
+                        if(!task.getDescription().equals(value)) {
+                            task.setDescription(value);
+                            taskDao.edit(task);
+                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(TarefaPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     return columnIndex != 2;
                 }
             };
@@ -162,7 +230,7 @@ public class TarefaPanel extends javax.swing.JPanel {
             Logger.getLogger(TarefaPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private java.awt.event.MouseAdapter onCellClick() {
         return new java.awt.event.MouseAdapter() {
             @Override
@@ -170,39 +238,46 @@ public class TarefaPanel extends javax.swing.JPanel {
                 int col = tableContent.columnAtPoint(evt.getPoint());
                 int row = tableContent.rowAtPoint(evt.getPoint());
                 if (col == 2) {
-                    ((DefaultTableModel)tableContent.getModel()).removeRow(row);
+                    Task task = tasks.get(row);
+                    try {
+                        taskDao.destroy(task.getId());
+                        loadDatabase();
+                    } catch (NonexistentEntityException ex) {
+                        Logger.getLogger(TarefaPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
                 }
             }
         };
     }
-    
+
     private void setSizeColumn(int column, int size) {
         tableContent
                 .getColumnModel()
                 .getColumn(column)
                 .setMaxWidth(size);
-        
+
         tableContent
                 .getColumnModel()
                 .getColumn(column)
                 .setMinWidth(size);
     }
-    
+
     private void setRenderColumn(int column, TableCellRenderer renderer) {
         tableContent
                 .getColumnModel()
                 .getColumn(column)
                 .setCellRenderer(renderer);
     }
-    
+
     private void setEditorColumn(int column, TableCellEditor editor) {
         tableContent
                 .getColumnModel()
                 .getColumn(column)
                 .setCellEditor(editor);
     }
-    
-    private ImageIcon getIcon(String icon){
+
+    private ImageIcon getIcon(String icon) {
         try {
             return new MaterializeIconFactory().build(icon);
         } catch (IOException ex) {
@@ -214,63 +289,78 @@ public class TarefaPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddTask;
     private javax.swing.JButton btnClearAll;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable tableContent;
     // End of variables declaration//GEN-END:variables
     class ButtonRenderTarefa implements TableCellRenderer {
+
         private final JButton button;
-        
+
         public ButtonRenderTarefa(String title) {
             button = new JButton(title);
         }
-        
+
         public ButtonRenderTarefa(ImageIcon icon) {
             button = new JButton(icon);
         }
-        
+
         @Override
         public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
             return button;
         }
     }
-    
+
     class CheckEditorTarefa extends AbstractCellEditor implements TableCellEditor {
+
         JCheckBox checkBox;
         int editedRow;
         int editedColumn;
-        
-        CheckEditorTarefa(){
+
+        CheckEditorTarefa() {
             checkBox = new JCheckBox();
         }
-        
+
         @Override
         public Component getTableCellEditorComponent(JTable table,
                 Object value, boolean isSelected, int row, int column) {
+            Task task = tasks.get(row);
             checkBox.setSelected((Boolean) value);
+            checkBox.addActionListener((e) -> {
+                task.setIsChecked(checkBox.isSelected()?1:0);
+                try {
+                    taskDao.edit(task);
+                    loadDatabase();
+                } catch (Exception ex) {
+                    Logger.getLogger(TarefaPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
             return checkBox;
         }
-        
+
         @Override
         public Object getCellEditorValue() {
             return checkBox.isSelected();
         }
     }
-    
+
     class CheckBoxRenderTarefa implements TableCellRenderer {
+
         private final JCheckBox checkbox;
-        
+
         public CheckBoxRenderTarefa() {
             checkbox = new JCheckBox();
         }
-        
+
         @Override
         public Component getTableCellRendererComponent(
                 JTable jtable, Object o, boolean bln,
                 boolean bln1, int i, int i1) {
             try {
                 checkbox.setSelected((Boolean) o);
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
             return checkbox;
         }
     }
